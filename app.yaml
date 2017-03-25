@@ -1,0 +1,22 @@
+
+
+runtime: python27
+api_version: 1
+threadsafe: false
+
+libraries:
+- name: jinja2
+  version: "2.6"
+
+handlers:
+#- url: /templates
+#  static_files: templates/
+- url: /
+  static_files: templates/index2.html
+  upload: templates/index2.html
+
+- url: /search
+  script: test.py 
+  #static_files: templates/index3.html
+  #upload: templates/index3.html
+  

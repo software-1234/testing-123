@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>Yelp Restaurant Selector</title>
+    	<style>
+	body {
+		background-color: #3399ff;
+	     }
+	</style>
+    </head>
+    <body>
+        <h1> Restaurant Selector :)  </h1>
+        <p>         </p>
+
+        <p> The following choices available are:
+        </p>
+
+        <ul>
+            <li> Search Term</li>
+            <li> Location</li>
+            <li> Price (optional)</li>
+        </ul>
+        
+      <form action = "http://127.0.0.1:5000/api/search" method = "POST">
+         <p>Place <input type = "text" name = "place" /></p>
+         <p>Search Term <input type = "text" name = "term" /></p>
+         <p>Price</p>
+            <ul style="list-style-type:none">
+            <li><input type="checkbox" name="price1" />$ </li>
+            <li><input type="checkbox" name="price2" />$$ </li>
+            <li><input type="checkbox" name="price3" />$$$ </li>
+	    <li><input type="checkbox" name="price4" />$$$$ </li>
+            </ul>
+	 <p>Phone Number <input type="text" name="phone" /></p>
+         <p><input type = "submit" value = "submit" /></p>
+      </form> 
+    </body> 
+</html>
+
