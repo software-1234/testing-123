@@ -1,1 +1,5 @@
 Flask==0.12
+Jinja2==2.9.5
+requests==2.13.0
+gunicorn==19.7.1
+pip==9.0.1
