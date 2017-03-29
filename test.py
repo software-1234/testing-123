@@ -100,3 +100,5 @@ def index():
 @app.route('/about')
 def about():
     return 'The about page'
+
+app.run(debug=True)
