@@ -1,5 +1,5 @@
 click==6.7
-Flask==0.12
+Flask==0.11
 google-api-python-client==1.6.2
 gunicorn==19.7.1
 httplib2==0.10.3
@@ -17,6 +17,5 @@ rsa==3.4.2
 six==1.10.0
 SpeechRecognition==3.6.0
 uritemplate==3.0.0
-virtualenv==15.1.0
 Werkzeug==0.12.1
 yelpapi==2.0.1
