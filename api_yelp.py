@@ -120,8 +120,7 @@ def search_phone(phone):
     """
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
     url_params = {
-        'phone': phone.replace(' ', '+'),
-        
+        'phone': '+1'+phone.replace('-',''), 
         'limit': SEARCH_LIMIT
     }
     return request(API_HOST, PHONE_PATH, bearer_token, url_params=url_params)
@@ -160,6 +159,7 @@ def search(term, location):
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
     return request(API_HOST, SEARCH_PATH, bearer_token, url_params=url_params)
 
+
 def search_price(term, location, price):
     """Query the Search API by a search term and location.
     Args:
@@ -178,6 +178,27 @@ def search_price(term, location, price):
     }
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
     return request(API_HOST, SEARCH_PATH, bearer_token, url_params=url_params)
+
+def search_best(term, location):
+    """Query the Search API by a search term and location.
+    Args:
+        term (str): The search term passed to the API.
+        location (str): The search location passed to the API.
+        price (str): The search price passed to the API
+    Returns:
+        dict: The JSON response from the request.
+    """
+
+    url_params = {
+        'term': term.replace(' ', '+'),
+        'location': location.replace(' ', '+'),
+        'limit': SEARCH_LIMIT,
+        'sort_by': 'rating'
+    }
+    bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
+    return request(API_HOST, SEARCH_PATH, bearer_token, url_params=url_params)
+
+
 
 
 def get_business(bearer_token, business_id):

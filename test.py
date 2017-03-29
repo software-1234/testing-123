@@ -11,28 +11,30 @@ import parse
 app = Flask(__name__)
 
 
-@app.route('/signUp')
-def signUp():
-    return render_template('./index2.html')
 '''@app.route('/')
 def do():
     return render_template('./index2.html')
 '''
-@app.route('/hello')
-def hello_world():
-    return 'Hello, World!'
-
-@app.route('/projects/')
-def projects():
-    return 'The project page'
-
-@app.route('/api')
+@app.route('/')
 def api():
     return render_template('index2.html')
 
+@app.route('/api/phone')
+def phone():
+    return render_template('phone.html')
+
+@app.route('/api/search/phone',methods = ['POST'])
+def phone_search():
+    if request.method=='POST':
+    	business_list=[]
+	phone=request.form['phone']
+	businesses = api_yelp.search_phone(phone)
+	businesses=parse.parse_phone(businesses)
+	
+	return render_template("index3.html",my_list=businesses,num_businesses=1)
+
 @app.route('/api/search',methods = ['POST'])
-def index():
-   
+def index():   
     #food = request.values.get('food')
     print(request.method)
     if request.method=='POST':
@@ -47,6 +49,7 @@ def index():
 	price4=request.form.get('price4')
 	auto=request.form.get('auto')
 	phone=request.form.get('phone')
+	stars=request.form.get('stars')
 	price=''
 	if price1:
 		price='1'
@@ -68,17 +71,25 @@ def index():
                         price=price+',4'
 	if price:
 		businesses = api_yelp.search_price(term,place,price)
-	elif phone:
-                businesses = api_yelp.search_phone(phone)
 	elif auto:
 		businesses = api_yelp.auto_location(37.7474,-122.4392,term)
+	elif stars:
+		businesses = api_yelp.search_best(term, place)
 	else:
 		businesses = api_yelp.search(term,place)
         #print(businesses)
 	#for i in (0,9):
 	#	business_list.append(businesses['businesses'][i]['name']) 
 	num_businesses=businesses["total"]
- 	businesses=parse.parse_file(businesses)
+	if num_businesses==0:
+		return render_template("no_results.html")
+		
+	if phone:
+        	businesses=parse.parse_phone(businesses)		
+	else:
+ 		businesses=parse.parse_file(businesses)
+	#print(businesses[3])
+	#print businesses
 	return render_template("index3.html",my_list=businesses,num_businesses=num_businesses)
     
     #print businesses['display_phone']

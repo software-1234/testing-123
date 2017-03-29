@@ -1,26 +1,89 @@
 <DOCTYPE html>
 <html>
-<body>
+<head>
+<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+<style>
+     
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+</style>
+ 
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>Search Results</title> 
+  
+</head>
 
-<h1>My First Heading</h1>
-<p>Your search returned {{num_businesses}} results.</p>
-           
+<body>
+<a href="/">Search Again!</a>
+<h1>Here are your results</h1>
+<p>Your search returned {{num_businesses}} results. 
+{% if (num_businesses==1) %}
+Here is the result.
+{% elif (num_businesses<10 )  %}
+Here are the first {{num_businesses}} results.
+
+{% else %}
+Here are the first 10 results.
+</p>
+{% endif %}           
      <ul style="list-style-type:none">
-       {% for n in my_list %}
+       {%for n in my_list %}
 	
-        <li>{{n[0]}}</li>
+        <li>Name: {{n[0]}}</li>
         <li>{{n[2]}}</li>
 	<li>{{n[3]}} 
 	    {{n[4]}}</li>
 	<li>Rating: {{n[5]}}</li>
+	
+	<li>{{n[10]}}</li>
+	<li>Number of Reviews: {{n[11]}}</li>
 	<a href={{n[1]}}>Link to Yelp site</a>
         <p></p>
 
-
         {% endfor %}
       </ul> 
-<p>1. {{name1}}</p>
-<p>2. {{name2}}</p>
 
+    <h3>Here are the locations of the above results</h3>
+   <div style="height:100%; width:100%;">  
+   <div id="map"></div>
+   </div>
+   <script>
+      function initMap() {
+	var infowindow = new google.maps.InfoWindow(); 
+        var center= {lat: {{my_list[0][9]}}, lng: {{my_list[0][8]}}};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: center,
+          
+        });
+var i=0;
+var gmarkers = [];      
+{%for n in my_list %}
+	
+		
+         var place = {lat: {{n[6]}}, lng: {{n[7]}}};
+	var marker = new google.maps.Marker({
+	position: place,
+        map: map
+        });
+	gmarkers.push(marker);
+      
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent('{{n[0]}}');
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+i++;
+    {% endfor %}
+
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbjNi0LWa4q9VGF7fieWb3afrdMOrYbhM&callback=initMap">
+
+    </script>
 </body>
 </html>
